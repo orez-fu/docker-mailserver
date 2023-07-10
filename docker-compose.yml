@@ -27,6 +27,9 @@ services:
     build: ./mta
     restart: on-failure:5
     env_file: .env
+    ports:
+      - "0.0.0.0:25:25"
+      - "0.0.0.0:587:587"
     volumes:
       - data-tls:/media/tls:ro
       # For using external certificates uncomment the following lines
@@ -49,6 +52,11 @@ services:
       # and change the path on the left side of the colon.
       # - /home/user/certs/mail.example.com.crt:/media/tls/mailserver.crt:ro
       # - /home/user/certs/mail.example.com.key:/media/tls/mailserver.key:ro
+    ports:
+      - "0.0.0.0:143:143"
+      - "0.0.0.0:993:993"
+      - "0.0.0.0:110:110"
+      - "0.0.0.0:995:995"
 
   # The admin (mailserver-admin) and webmail (roundcube) interfaces
   # live here. Can be removed if not needed.
@@ -61,6 +69,8 @@ services:
         RC_PLUGINS: "johndoh/contextmenu jfcherng-roundcube/show-folder-size"
     restart: on-failure:5
     env_file: .env
+    ports:
+      - "0.0.0.0:81:80"
     volumes:
       - data-dkim:/media/dkim
     # For use with jwilder/nginx-proxy.
